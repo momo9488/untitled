@@ -45,7 +45,7 @@ const Counter =(props) =>(
 class App extends Component {
   render() {
     return (
-        <BrowserRouter>
+        <div>
             <div>
               <Container>
                   <Switch>
@@ -57,7 +57,7 @@ class App extends Component {
                   </Switch>
               </Container>
             </div>
-        </BrowserRouter>
+        </div>
     );
   }
 }
