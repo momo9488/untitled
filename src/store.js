@@ -1,8 +1,9 @@
 import {routerReducer} from 'react-router-redux'
 import {createStore, combineReducers, compose,  applyMiddleware} from 'redux';
-import reducer from './components/Account/reducer'
-import {reducer as accountReducer} from './components/Account/reducer'
-import {reducer as countReducer} from './components/Count/reducer'
+// import reducer from './components/Account/reducer'
+import { reducer as accountReducer } from './components/Account/index'
+import {reducer as countReducer} from './components/Count'
+import {reducer as weatherReducer} from './components/Weather'
 import resetEnhancer from './middleWare/reset'
 //**************/
 const win = window;
@@ -10,12 +11,14 @@ const win = window;
 //     win.Perf = Perf ;
 // }
 //**************/
-// const originalReducer={
-//     routing : routerReducer,
-//     account : accountReducer,
-//     count : countReducer
-// }
-// const reducer =combineReducers(originalReducer);
+const originalReducer={
+    routing : routerReducer,
+    account : accountReducer,
+    count : countReducer,
+    weather : weatherReducer
+}
+//将所有的reducer都传进去
+const reducer =combineReducers(originalReducer);
 // const storeEnhancer  = compose (
 //     resetEnhancer,
 //     applyMiddleware(...middlewares),

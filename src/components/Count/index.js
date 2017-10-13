@@ -1,2 +1,3 @@
 import view,{stateKey} from './view';
-export {view,stateKey};
+import reducer from './reducer'
+export {view,stateKey,reducer};

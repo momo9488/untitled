@@ -8,6 +8,7 @@ import Container from "./components/shard/Container";
 import Transition from './components/Transition/view'
 import ReactMotion from './components/reactMotion/view'
 import {BrowerRouter} from 'react-router-dom'
+import Weather from './components/Weather/viewRedux'
 ///异步加载React 组件
 ///会单独打包成.chunk的文件
 ///文档的换成getComponent不行
@@ -54,6 +55,7 @@ class App extends Component {
                       <Route path="/App/Count" component={Counter}/>
                       <Route path="/App/transition" component={Transition}/>
                       <Route path="/App/reactMotion" component={ReactMotion}/>
+                      <Route path="/App/weather" component={Weather}/>
                   </Switch>
               </Container>
             </div>

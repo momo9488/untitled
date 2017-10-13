@@ -5,7 +5,7 @@ const initState={
     count:2
 }
 //这里没有定义函数名
-export default (state={initState,page:2},action)=>{
+export default(state={initState,page:2},action)=>{
     console.log(action)
     if(typeof state ==='undefined'){
         return [];
