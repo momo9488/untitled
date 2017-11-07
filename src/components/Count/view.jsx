@@ -1,42 +1,33 @@
 import React,{Component} from 'react';
-import {decrement, increment} from "./action";
+import {decrement, increment,ax} from "./action";
 import {connect} from 'react-redux';
- class Count extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            page: 2
-
-        }
-    }
-    render(){
-        return(
-            <div>
-                <button onClick={this.props.onIncrement}>+</button>
-                <button onClick={this.props.onDecrement}>-</button>
-                <span>counter:{this.state.value}</span>
-
-            </div>
-        );
-    }
+import {withRouter} from 'react-router-dom'
+function Counter({onIncrement,onDecrement,value}){
+    return(
+        <div>
+            <button onClick={onIncrement}>+</button>
+            <button onClick={onDecrement}>-</button>
+            <span>Count:{value}</span>
+        </div>
+    )
 }
-
-export const stateKey = 'counter'
+export const stateKey = 'count'
 const mapStateToProps =(state) => {
-     console.log(state)
-     return{
-         value: 0 || state[stateKey]
-     }
+     console.log(state.count)
+     const count =state.count;
+     console.log(count)
+    return {
+        value:state.count[stateKey]||0
+    }
 };
 const mapDispatchToProps = (dispatch) => ({
     onIncrement: () => {
         dispatch( increment());
-        console.log("1")
     },
-    onDecrement: () =>{
+    onDecrement: () => {
         dispatch(decrement());
     }
 });
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(Count);
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Counter));

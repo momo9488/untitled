@@ -10,12 +10,13 @@ export default class Project extends Component {
         // {console.log(props)}
         // {console.log("2")}
         this.state={
-            fileList: []
+            fileList: [],
+            value:[{'username':'li','age':23},{'username':'li','age':23}]
         }
     }
     return=()=>{
+       {console.log(this.props)}
        this.props.history.goBack();////只用这条语句就可以实现返回上一级
-        // {console.log(this.props)}
         // {console.log("1")}
     }
     handle=()=>{
@@ -34,8 +35,11 @@ export default class Project extends Component {
             }
         })
     }
+    clearLocation = () => {
+        localStorage.clear()
+    }
     render(){
-
+        {console.log(this.props)}
         const props = {
             name: 'info',
            // action: '//jsonplaceholder.typicode.com/posts/',
@@ -69,22 +73,22 @@ export default class Project extends Component {
 
         return(
             <div>
-
-                    <Upload {...props}><Button>
-                        <Icon type="upload" /> Click to Upload
-                    </Button>
-                    </Upload>
-                    <Button onClick={this.handle()}>上传文件</Button>
-                    <Row>
-                        <Col span={12}>
-                            <p>这是project页面</p>
-                            <Button onClick={this.return}>返回上一级</Button>
-                        </Col>
-                        <Col span={12}>
-                            <Link to="/App">Account</Link>
-                        </Col>
-                    </Row>
-                    <ProjectChild></ProjectChild>
+                <button onClick={this.clearLocation}>清空location</button>
+                <Upload {...props}><Button>
+                    <Icon type="upload" /> Click to Upload
+                </Button>
+                </Upload>
+                <Button onClick={this.handle()}>上传文件</Button>
+                <Row>
+                    <Col span={12}>
+                        <p>这是project页面</p>
+                        <Button onClick={this.return}>返回上一级</Button>
+                    </Col>
+                    <Col span={12}>
+                        <Link to="/App/account">Account</Link>
+                    </Col>
+                </Row>
+                <ProjectChild data={this.state.value}></ProjectChild>
             </div>
         );
     }

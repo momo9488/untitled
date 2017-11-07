@@ -1,90 +1,71 @@
 import React from 'react'
 import {Redirect} from 'react-router-dom'
 import {Row,Col,Form,Icon,Input,Button} from 'antd'
-const FormItem = Form.Item;
+import fakeAuth from './login/hasLogin'
+// const fakeAuth = {
+//     isAuthenticated: false,
+//     authenticate(cb) {
+//         this.isAuthenticated = true
+//         setTimeout(cb, 100) // fake async
+//     },
+//     signout(cb) {
+//         this.isAuthenticated = false
+//         setTimeout(cb, 100)
+//     }
+// }
 class LoginForm extends React.Component{
+    constructor(props){
+        super(props)
+        this.state={
+            hasLogin : false,
+            username:'',
+        }
+    }
+    login = () => {
+        fakeAuth.authenticate(()=>{
+            this.setState({
+                hasLogin :true
+            })
+            {console.log(this.state.hasLogin )}
+        })
+    }
+    onChangeUserName = (e) => {
+        this.setState({ username: e.target.value });
+    }
     render(){
-        const  {hasLogin} = this.props;
-        const { getFieldDecorator, getFieldError, isFieldTouched } = this.props.form;
+        const { from } = this.props.location.state || { from: { pathname: '/' } };
+        const { username } = this.state;
 
-        const usernameError = isFieldTouched("username") && getFieldError("username") ;
-        const passwordError = isFieldTouched("password") && getFieldError("password") ;
-
-        // const isFieldsHasErrors = hasErrors(getFieldsError());
-
-        if( !hasLogin){
+        if( !this.state.hasLogin ){
             return (
                 <div className="containter">
+                    <div>
+                        <button onClick={this.login}>登陆</button>
+                    </div>
                     <div className="bg"></div>
-                    <div className="loginBox" >
-                        <Row type="flex" justify="center" align="middle" style={{height: "100%"}} >
-                            <Col style={{position:'relative'}}>
-                                <div className="loginPanel"></div>
-                                <Row type="flex" align="middle" style={{margin:"20px"}}>
-                                    <Col style={{zIndex:11}}>
-                                        <div className="site">
-                                            <span>maybeLogo</span>
-                                        </div>
-                                    </Col>
-                                    <Col style={{zIndex:11}}>
-                                        <div className="loginFrom">
-                                            <Form  style={{width: "250px"}}>
-                                                <FormItem validateStatus={ usernameError ? 'error':""}
-                                                          help = { usernameError ? usernameError : ""}
-                                                >
-                                                    {
-                                                        getFieldDecorator('username',{
-                                                            rules:[
-                                                                {required:true,message:"用户名不能为空"}
-                                                            ]
-                                                        })(
-                                                            <Input prefix={<Icon type="user" style={{ fontSize: 15,color:"#fff" }} />}
-                                                                   type="text"
-                                                                   size="large"
-                                                                   placeholder="请输入用户名"/>)
-                                                    }
-
-                                                </FormItem>
-                                                <FormItem validateStatus={ passwordError ? 'error':""}
-                                                          help = { passwordError ? passwordError : ""}
-                                                >
-                                                    {
-                                                        getFieldDecorator('password',{
-                                                            rules:[
-                                                                {required:true,message:"密码不能为空"}
-                                                            ]
-                                                        })(
-                                                            <Input prefix={<Icon type="lock" style={{ fontSize: 15,color:"#fff" }} />}
-                                                                   type="password"
-                                                                   size="large"
-                                                                   placeholder="请输入密码"/>)
-                                                    }
-                                                </FormItem>
-
-                                                <Button type="primary" htmlType="submit"  loading={this.props.isLoading}   onClick ={ this.hanldeValidateLogon }>
-                                                    {
-                                                        this.props.isLoading ? "模拟登录中..." : "登入系统"
-                                                    }
-                                                </Button>
-                                            </Form>
-                                        </div>
-                                    </Col>
-                                </Row>
-                            </Col>
-                        </Row>
-
-
+                    <div>
+                        <Input
+                            placeholder="Enter your userName"
+                            value={username}
+                            onChange={this.onChangeUserName}
+                            ref={node => this.userNameInput = node}
+                        />
+                        <button onClick={()=>{window.sessionStorage.setItem('session',username)}}>单个的seesion+</button>
+                        {sessionStorage.getItem('session')}
+                        //如果是登陆的，使用这个
+                        <button onClick={()=>window.localStorage.setItem('local',username)}>单个的local+</button>
+                        {localStorage.getItem('local')}
+                        <button onClick={sessionStorage.clear()}>清空local</button>
+                        <p>当我们存储的数据是不覆盖的</p>
                     </div>
                 </div>
             );
-        }else{
+        }else{ {console.log(this.state.hasLogin )}
             return(
-                <Redirect to={{
-                    pathname: '/',
-                }}/>)
+                <Redirect to={from}/>
+            )
         }
     }
-
 }
 LoginForm = Form.create({
     onValuesChange:(props, values)=>{

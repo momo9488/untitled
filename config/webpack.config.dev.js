@@ -11,6 +11,8 @@ const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
+/**/
+const pkg = require("../package.json");
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -21,6 +23,20 @@ const publicPath = '/';
 const publicUrl = '';
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
+
+/**/
+//读取package.json中的theme字段,如果是string类型，读取配置文件。如果是object类型，则作为参数传给modifyVar
+let theme = {};
+if (pkg.theme && typeof(pkg.theme) === 'string') {
+    let cfgPath = pkg.theme;
+    // relative path
+    if (cfgPath.charAt(0) === '.') {
+        cfgPath = path.resolve(cfgPath);
+    }
+    theme = require(cfgPath);
+} else if (pkg.theme && typeof(pkg.theme) === 'object') {
+    theme = pkg.theme;
+}
 
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
@@ -133,7 +149,7 @@ module.exports = {
           // smaller than specified limit in bytes as data URLs to avoid requests.
           // A missing `test` is equivalent to a match.
           {
-            test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+            test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/ ],
             loader: require.resolve('url-loader'),
             options: {
               limit: 10000,
@@ -159,7 +175,7 @@ module.exports = {
           // In production, we use a plugin to extract that CSS to a file, but
           // in development "style" loader enables hot editing of CSS.
           {
-            test: /\.css$/,
+            test: /\.(css)$/,
             use: [
               require.resolve('style-loader'),
               {
@@ -190,6 +206,7 @@ module.exports = {
               },
             ],
           },
+
           // "file" loader makes sure those assets get served by WebpackDevServer.
           // When you `import` an asset, you get its (virtual) filename.
           // In production, they would get copied to the `build` folder.
@@ -200,11 +217,26 @@ module.exports = {
             // it's runtime that would otherwise processed through "file" loader.
             // Also exclude `html` and `json` extensions so they get processed
             // by webpacks internal loaders.
-            exclude: [/\.js$/, /\.html$/, /\.json$/],
+            exclude: [/\.js$/, /\.html$/, /\.json$/, /\.less$/],
             loader: require.resolve('file-loader'),
             options: {
               name: 'static/media/[name].[hash:8].[ext]',
             },
+          },
+          {
+              test: /\.less$/,
+              //include: paths.appSrc,
+              use: [{
+                  loader: "style-loader" // creates style nodes from JS strings
+              }, {
+                  loader: "css-loader" // translates CSS into CommonJS
+              }, {
+                  loader: "less-loader",// compiles Less to CSS
+                  options:{
+                      sourceMap: true,
+                      modifyVars:theme
+                  }
+              }]
           },
         ],
       },

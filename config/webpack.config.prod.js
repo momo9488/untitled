@@ -12,6 +12,8 @@ const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
+/**/
+const pkg = require("../package.json");
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -46,6 +48,19 @@ const extractTextPluginOptions = shouldUseRelativeAssetPaths
     { publicPath: Array(cssFilename.split('/').length).join('../') }
   : {};
 
+/**/
+//读取package.json中的theme字段,如果是string类型，读取配置文件。如果是object类型，则作为参数传给modifyVar
+let theme = {};
+if (pkg.theme && typeof(pkg.theme) === 'string') {
+    let cfgPath = pkg.theme;
+    // relative path
+    if (cfgPath.charAt(0) === '.') {
+        cfgPath = path.resolve(cfgPath);
+    }
+    theme = require(cfgPath);
+} else if (pkg.theme && typeof(pkg.theme) === 'object') {
+    theme = pkg.theme;
+}
 // This is the production configuration.
 // It compiles slowly and is focused on producing a fast and minimal bundle.
 // The development configuration is different and lives in a separate file.
@@ -167,7 +182,7 @@ module.exports = {
           // use the "style" loader inside the async code so CSS from them won't be
           // in the main CSS file.
           {
-            test: /\.css$/,
+            test: /\.(css|less)$/,
             loader: ExtractTextPlugin.extract(
               Object.assign(
                 {
@@ -218,13 +233,28 @@ module.exports = {
             // it's runtime that would otherwise processed through "file" loader.
             // Also exclude `html` and `json` extensions so they get processed
             // by webpacks internal loaders.
-            exclude: [/\.js$/, /\.html$/, /\.json$/],
+            exclude: [/\.js$/, /\.html$/, /\.json$/, /\.less$/],
             options: {
               name: 'static/media/[name].[hash:8].[ext]',
             },
           },
           // ** STOP ** Are you adding a new loader?
           // Make sure to add the new loader(s) before the "file" loader.
+          {
+              test: /\.less$/,
+              //include: paths.appSrc,
+              use: [{
+                  loader: "style-loader" // creates style nodes from JS strings
+              }, {
+                  loader: "css-loader" // translates CSS into CommonJS
+              }, {
+                  loader: "less-loader",// compiles Less to CSS
+                  options:{
+                      sourceMap: true,
+                      modifyVars:theme
+                  }
+              }]
+          },
         ],
       },
     ],

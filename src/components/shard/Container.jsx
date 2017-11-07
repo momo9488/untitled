@@ -11,7 +11,6 @@ export default class Container extends React.Component{
                 <Header/>
                 <Content className="lee">
                     {this.props.children}
-                    {console.log(this.props.children)}
                 </Content>
             </Layout>
         );

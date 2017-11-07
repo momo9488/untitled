@@ -1,3 +1,4 @@
+/*这里导入的图片路径需要相对路径，react会自动转换成绝对路径*/
 body {
   margin: 0;
   padding: 0;

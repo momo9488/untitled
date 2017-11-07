@@ -7,7 +7,9 @@ class Weather extends Component {
             weather:null
         };
     }
+    //这里这样是把状态直接放在组件里面
     componentDidMount(){
+        //目前支持这个请求方法
         const apiUrl='/data/sk/101010100.html'
         fetch(apiUrl).then((response) => {
             if(response.status!==200){

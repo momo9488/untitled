@@ -1,26 +1,22 @@
-import { CREATE_ROOM_START, CREATE_ROOM_SUCCESS,CREATE_ROOM_FAILURE} from './actionType'
-
-export default (state = {weather:null},action ) =>{
+import { FETCH_START, FETCH_SUCCESS,FETCH_FAILURE} from './actionType'
+import * as Status from './status'
+export default (state = {status:Status.LOADING},action ) =>{
     switch(action.type){
-        case CREATE_ROOM_START:{
+        case FETCH_START:{
+            return {
+                status:Status.LOADING
+            }
+        }
+        case FETCH_SUCCESS:{
             return {
                 ...state,
-                status:"posting",
+                status:Status.SUCCESS,
                 ...action.result,
             }
         }
-        case CREATE_ROOM_SUCCESS:{
+        case FETCH_FAILURE:{
             return {
-                ...state,
-                status:"success",
-                visible:false,
-            }
-        }
-        case CREATE_ROOM_FAILURE:{
-            return {
-                ...state,
-                status:"failure",
-                visible:false,
+                status:Status.FAILURE,
             }
         }
         default:{

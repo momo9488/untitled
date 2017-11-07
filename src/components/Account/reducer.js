@@ -2,11 +2,11 @@ import {ADD_TODO} from './actionType'
 import {ADD_TODOS} from './actionType'
 const initState={
     text:'1',
-    count:2
+    count:2,
+    page:2
 }
 //这里没有定义函数名
-export default(state={initState,page:2},action)=>{
-    console.log(action)
+export default(state={initState},action)=>{
     if(typeof state ==='undefined'){
         return [];
     }

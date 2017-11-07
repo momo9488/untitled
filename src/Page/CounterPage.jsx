@@ -1,23 +1,12 @@
-import React,{Component} from 'react'
-import {view as Count} from '../components/Count/index'
-// export const Counter= () => {
-//     return(
-//         <div>
-//             <div>counter:</div>
-//             <Count caption="any"></Count>
-//         </div>
-//     );
-// };
-export default class Counter extends Component{
-    constructor(props){
-        super(props)
-    }
-    render(){
-        return(
-            <div>
-                <div>counter:</div>
-                <Count caption="any"/>
-            </div>
-        );
-    }
+import React from 'react'
+import {view as Count,stateKey,reducer} from '../components/Count/index'
+const page=() =>{
+    return (
+        <div>
+            <div>Counter</div>
+            <Count value={0}/>
+        </div>
+    )
 }
+const initState = () => Promise.resolve(100);
+export {page,reducer,initState,stateKey}

@@ -17,7 +17,7 @@ export default class Menuslide extends React.Component{
                 defaultOpenKeys={['sub1']}
                 mode="inline"
             >
-                <Menu.Item key="/home"><Link to="/App"><Icon type="home"></Icon>首页</Link></Menu.Item>
+                <Menu.Item key="/home"><Icon type="home"></Icon>首页</Menu.Item>
                 <SubMenu key ='ui' title= { <div><Icon type="laptop" /><span>物业管理</span></div>}>
                     <Menu.Item key="/App/project" ><Link to="/App"><Icon type="exception" />项目管理</Link></Menu.Item>
                     <Menu.Item key="/ui/about" ><Link to="/App"><Icon type="heart" />关于</Link></Menu.Item>
