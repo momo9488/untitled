@@ -31,7 +31,7 @@ describe('weather/actions', () => {
       });
       stubbedFetch.returns(mockResponse);
 
-      return store.dispatch(actions.postCreateRoomForm(1)).then(() => {
+      return store.dispatch(actions.fetchWeatherThunk(1)).then(() => {
         const dispatchedActions = store.getActions();
         expect(dispatchedActions.length).toBe(2);
         expect(dispatchedActions[0].type).toBe(actionTypes.FETCH_STARTED);
