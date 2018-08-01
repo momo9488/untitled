@@ -19,15 +19,14 @@ class Account extends Component{
 
     constructor(props){
         super(props)
+        /*这样的设计就不是很好，组件中尽量不要存储数据，数据应该存储在store中*/
         this.state={
             page:2,
-            mixins:[History],
             showComponent:false,
             username:'',
             time:'',
             result:''
         }
-
     }
     componentDidMount (){
         this.props.addTodos()

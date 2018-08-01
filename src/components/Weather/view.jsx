@@ -15,8 +15,9 @@ class Weather extends Component {
             if(response.status!==200){
                 throw new Error('Fail');
             }
-            {console.log(response)}
+            console.log(response)
             response.json().then((response)=> {
+                console.log(response)
                 this.setState({weather:response.weatherinfo});
             }).catch((error)=>{
                 this.setState({weather:null});

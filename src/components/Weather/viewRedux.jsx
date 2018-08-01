@@ -1,6 +1,6 @@
 ////这个是简单的写法，不涉及到使用redux来管理数据。只用这一个文件就可以展示出跨域请求到的数据
 import React,{Component} from 'react'
-import { fetchWeather } from './action'
+import { actions } from './index'
 import { connect } from 'react-redux'
 import * as Status from './status'
 import {withRouter} from 'react-router-dom'
@@ -26,7 +26,7 @@ class CitySelector extends React.Component {
     }
 
     render() {
-        let {status,city} =this.props;
+        let {status,city,temp1} =this.props;
         const Weather = ()=>{
             switch (status){
                 case Status.LOADING:{
@@ -37,7 +37,8 @@ class CitySelector extends React.Component {
                 case Status.SUCCESS:{
                     return(
                         <div>
-                            <p>{city}</p>
+                            <p>此处应有数据</p>
+                            <p>{city}{temp1}</p>
                         </div>
                     )
                 }
@@ -72,29 +73,27 @@ class CitySelector extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state.weather)
     const weather =state.weather;
-    return{
-        // status:state.status
-        status:weather.status,
-        city:weather.city,
+    {console.log(weather)}
+    const status=weather.status;
+    if(status=='loading'){
+        return{
+            status:weather.status,
+        }
+    }else {
+        return{
+            status:weather.status,
+            // city:weather.weatherinfo.city,
+            // temp1:weather.weatherinfo.temp1
+            city:weather.city,
+            temp1:weather.temp1
+        }
     }
 }
-//这个是action
-// const mapDispatchToProps = (dispatch) => ({
-//     // postCreateRoomForm:(city,cityid,temp)=>{
-//     //     dispatch( postCreateRoomForm(city,cityid,temp) )
-//     // }
-//     onSelectCity:(citycode)=>{
-//         dispatch( weatherAction.fetchWeather(citycode))
-//     }
-// });
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onSelectCity: (cityCode) => {
-            console.log(cityCode)
-            dispatch(fetchWeather(cityCode));
-        }//提供了名为onSelectCity的函数类型prop
+//这个是action，提供了名为onSelectCity的函数类型prop
+const mapDispatchToProps = (dispatch) => ({
+    onSelectCity:(cityCode) => {
+        dispatch(actions.fetchWeatherThunk(cityCode))
     }
-};
+});
 export default withRouter(connect(mapStateToProps,mapDispatchToProps)(CitySelector));

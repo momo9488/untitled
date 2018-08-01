@@ -9,14 +9,15 @@ import Container from "./components/shard/Container";
 import Transition from './components/Transition/view'
 import ReactMotion from './components/reactMotion/view'
 import {BrowerRouter} from 'react-router-dom'
-import Weather from './components/Weather/viewRedux'
+import {view as Weather} from './components/Weather/index'
 import axiosView from './components/axios/axiosView'
 import store from './store';
 import navExample from './components/nav/view'
 import Topics from './components/nav/match'
+import Background from './components/background/view'
+import loginForm from './components/loginForm/view'
 
 ///异步加载React 组件
-///会单独打包成.chunk的文件
 ///文档的换成getComponent不行
 //最下面的''引号里面是打包的名字
 //这个4以上的路由加载写法
@@ -24,7 +25,7 @@ const Account =(props) => (
     <Bundle  load={(cb) => {
         require.ensure([], require => {
             cb(require("./components/Account"));
-        },'Account');//这里的Account会变成加载成build的名字
+        },'Account');
     }}>
         {(Account) => <Account {...props}/>}
 </Bundle>
@@ -75,13 +76,13 @@ class App extends Component {
                       <Route path="/App/axiox" component={axiosView}/>
                       <Route path="/App/nav" component={navExample}/>
                       <Route path="/App/topics" component={Topics}/>
+                      <Route path="/App/background" component={Background}/>
+                      <Route path="/App/loginForm" component={loginForm}/>
                   </Switch>
               </Container>
-
             </div>
         </div>
     );
   }
 }
-
 export default App;

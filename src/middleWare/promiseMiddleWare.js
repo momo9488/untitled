@@ -1,16 +1,18 @@
-//这个针对的是异步action对象
+
 function isPromise(obj){
     return obj && typeof obj.then === 'function';
 
 }
-
-export default function promiseMiddleware( {dispatch} ) {
+//这个是中间件的接口
+export default function promiseMiddleware( {dispatch,getState} ) {
       return function (next){
           return function(action){
-              console.log(action)
+              //执行传入的action
+              //每个中间件代表着一种功能，所以实现的方法就是在这里编写的
+              console.log(getState())//获得当前的状态
               const { types,promise,...rest } = action;
-             if( !isPromise(promise) || !(action.types && action.types.length === 3)){
-                  return next(action)
+             if( !isPromise(promise) || !(action.types && action.types.length === 3)){//就是这个action必须满足返回的数据是有promise对象，还有types字段长度是3
+                  return next(action)//否则的话就执行下一个action
               }
             ///代表action的必须是三种的类型
                const [pending, done, fail] = types;
@@ -18,6 +20,7 @@ export default function promiseMiddleware( {dispatch} ) {
                dispatch({...rest,type:pending});
 
                action.promise.then( response => {
+                   console.log(response.status)
                    switch( response.status){
                        case 200 : {
                               response.json().then( 

@@ -1,7 +1,6 @@
 import React from 'react';
 
 export default function Loading({ isLoading, pastDelay, error }) {
-  console.log("34")
   if (isLoading && pastDelay) {
     return <p>Loading...</p>;
   } else if (error && !isLoading) {

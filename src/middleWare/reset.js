@@ -3,16 +3,16 @@
 const RESET_ACTION_TYPE = '@@RESET';
 
 const resetReducerCreator = (reducer, resetState) => (state, action) => {
-    if (action.type === RESET_ACTION_TYPE) {
+    if (action.type === RESET_ACTION_TYPE) {  console.log("221")
         return resetState;
-    } else {
+    } else {console.log("222")
         return reducer(state, action);
     }
 };
 ///replaceReducer用于替换创建store的reducer
 const reset = (createStore) => (reducer, preloadedState, enhancer) => {
     const store = createStore(reducer, preloadedState, enhancer);
-
+    console.log("223")
     const reset = (resetReducer, resetState) => {
         const newReducer = resetReducerCreator(resetReducer, resetState);
         store.replaceReducer(newReducer);//先通过replaceReducer 函数替换store原有的reducer

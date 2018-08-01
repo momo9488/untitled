@@ -12,6 +12,10 @@ import LoginForm from "./components/LoginForm";
 import historys from './components/history/history'
 import {AuthButton} from './components/login/AuthButton'
 import {PrivateRoute} from './components/login/PrivateRoute'
+import first from './components_m/first/view'
+import second from './components_m/second/view'
+import calendar from './components/calendar/view'
+import echart from './components/echart/view'
 import {Link} from 'react-router-dom'
 // import Home from './components/Home'
 // const store =createStore(reducer);
@@ -45,7 +49,7 @@ const Home = (props) => (
 //             this.props.router.setRouteLeaveHook(
 //                 this.props.route,
 //                 this.routerWillLeave
-//             )
+//            ya )
 //         },
 //         routerWillLeave(nextLocation){
 //           if(!this.state.isSaved) {
@@ -79,6 +83,10 @@ ReactDOM.render(
                     {/*<Route path="/App" component={ App }/>*/}
                     <Route path="/home" component={Home}/>
                     <Route path="/history" component={historys}/>
+                    <Route exact path="/mobile" component={first}/>
+                    <Route path="/echart" component={echart}/>
+                    <Route path="/mobile/second" component={second}/>
+                    <Route path="/calendar" component={calendar}/>
                     {/*<ul>*/}
                         {/*<li><Link to="protected"/></li>*/}
                     {/*</ul>*/}
