@@ -64,7 +64,7 @@ class Home extends Component {
                 <div className="all">
                     <div id="containter">
                         <div className="bg">
-                            <img src={home} alt="图片" alt=""/>
+                            <img src={home} alt="图片"/>
                         </div>
                         <div className="loginBox">
                             <div className="formBorder">
